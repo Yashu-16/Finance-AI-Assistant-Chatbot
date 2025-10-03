@@ -15,20 +15,22 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
   const isAssistant = message.role === "assistant";
 
   return (
-    <div className={`flex gap-3 ${isAssistant ? "" : "justify-end"}`}>
+    <div className={`flex gap-3 ${isAssistant ? "" : "justify-end"} animate-in fade-in slide-in-from-bottom-2 duration-500`}>
       {isAssistant && (
-        <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-          <Bot className="w-5 h-5 text-primary-foreground" />
+        <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center flex-shrink-0 shadow-elevated">
+          <Bot className="w-5 h-5 text-white" />
         </div>
       )}
       <div className={`flex-1 max-w-3xl ${isAssistant ? "" : "flex justify-end"}`}>
         <Card
-          className={`p-4 ${
-            isAssistant ? "bg-card" : "bg-primary text-primary-foreground"
+          className={`p-4 shadow-card transition-all hover:shadow-elevated ${
+            isAssistant 
+              ? "bg-card border-border/50" 
+              : "gradient-primary text-white border-none"
           }`}
         >
-          <div className="prose prose-sm max-w-none">
-            <p className="whitespace-pre-wrap">{message.content}</p>
+          <div className="prose prose-sm max-w-none dark:prose-invert">
+            <p className="whitespace-pre-wrap leading-relaxed text-[15px]">{message.content}</p>
           </div>
 
           {message.intent && isAssistant && (
@@ -59,8 +61,8 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
         </Card>
       </div>
       {!isAssistant && (
-        <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center flex-shrink-0">
-          <User className="w-5 h-5 text-secondary-foreground" />
+        <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center flex-shrink-0 shadow-elevated">
+          <User className="w-5 h-5 text-white" />
         </div>
       )}
     </div>

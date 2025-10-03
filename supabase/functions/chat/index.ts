@@ -57,10 +57,13 @@ FAQ Knowledge Base:
 ${faqContext}
 
 When responding:
-- Be concise but comprehensive
+- Keep responses CONCISE and to the point (2-4 sentences max)
+- Use bullet points for multiple items
+- Format clearly with line breaks between sections
 - If you reference FAQ information, cite the category
 - If you're unsure, acknowledge it honestly
-- Classify the intent of the user's question`;
+- Classify the intent of the user's question
+- Avoid lengthy explanations unless specifically asked`;
 
     console.log("Calling Lovable AI...");
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -77,7 +80,7 @@ When responding:
           { role: "user", content: message },
         ],
         temperature: 0.7,
-        max_tokens: 1000,
+        max_tokens: 400,
       }),
     });
 

@@ -178,7 +178,7 @@ const ChatInterface = ({ conversationId, userId }: ChatInterfaceProps) => {
           </Button>
         </div>
         <p className="text-xs text-muted-foreground text-center mt-2">
-          Powered by Lovable AI with real financial data
+          Developed by Yash Randhe
         </p>
       </div>
     </div>

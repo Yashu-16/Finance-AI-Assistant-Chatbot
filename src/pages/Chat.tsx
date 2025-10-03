@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { LogOut, Menu, Plus } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LogOut, Menu, Plus, MessageSquare, HelpCircle, BarChart3 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ChatInterface from "@/components/chat/ChatInterface";
 import ConversationSidebar from "@/components/chat/ConversationSidebar";
+import FAQTab from "@/components/chat/FAQTab";
+import AnalyticsTab from "@/components/chat/AnalyticsTab";
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -115,20 +118,19 @@ const Chat = () => {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <header className="border-b p-4 flex items-center justify-between bg-card">
+        <header className="border-b p-4 flex items-center justify-between bg-gradient-to-r from-primary/5 to-secondary/5">
           {!sidebarOpen && (
             <Button size="icon" variant="ghost" onClick={() => setSidebarOpen(true)}>
               <Menu className="w-5 h-5" />
             </Button>
           )}
           <div className="flex-1 text-center">
-            <h1 className="text-xl font-semibold">Finance AI Assistant</h1>
-            <p className="text-sm text-muted-foreground">Powered by real financial data</p>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              Finance AI Assistant
+            </h1>
+            <p className="text-sm text-muted-foreground">Your intelligent financial companion</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={() => navigate("/faqs")}>
-              FAQs
-            </Button>
             <Button variant="outline" onClick={() => navigate("/admin")}>
               Admin
             </Button>
@@ -138,9 +140,36 @@ const Chat = () => {
           </div>
         </header>
 
-        {/* Chat Interface */}
+        {/* Tabs */}
         <div className="flex-1 overflow-hidden">
-          <ChatInterface conversationId={currentConversationId} userId={session?.user?.id} />
+          <Tabs defaultValue="chat" className="h-full flex flex-col">
+            <TabsList className="w-full justify-start rounded-none border-b bg-muted/30 px-4">
+              <TabsTrigger value="chat" className="gap-2">
+                <MessageSquare className="w-4 h-4" />
+                Chat
+              </TabsTrigger>
+              <TabsTrigger value="faqs" className="gap-2">
+                <HelpCircle className="w-4 h-4" />
+                FAQs
+              </TabsTrigger>
+              <TabsTrigger value="analytics" className="gap-2">
+                <BarChart3 className="w-4 h-4" />
+                Analytics
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="chat" className="flex-1 overflow-hidden mt-0">
+              <ChatInterface conversationId={currentConversationId} userId={session?.user?.id} />
+            </TabsContent>
+            
+            <TabsContent value="faqs" className="flex-1 overflow-auto mt-0">
+              <FAQTab />
+            </TabsContent>
+            
+            <TabsContent value="analytics" className="flex-1 overflow-auto mt-0">
+              <AnalyticsTab userId={session?.user?.id} />
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </div>

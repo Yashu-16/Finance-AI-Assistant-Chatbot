@@ -17,6 +17,7 @@ const Chat = () => {
   const [loading, setLoading] = useState(true);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -65,6 +66,7 @@ const Chat = () => {
       if (error) throw error;
 
       setCurrentConversationId(data.id);
+      setRefreshKey((prev) => prev + 1);
       toast({
         title: "New conversation started",
       });
@@ -110,6 +112,7 @@ const Chat = () => {
           </Button>
         </div>
         <ConversationSidebar
+          key={refreshKey}
           currentConversationId={currentConversationId}
           onSelectConversation={setCurrentConversationId}
         />
